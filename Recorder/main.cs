@@ -25,7 +25,6 @@ namespace Recorder
         public void Button1_Click(System.Object sender, System.EventArgs e)
         {
             record("open new Type waveaudio Alias recsound", "", 0, 0);
-
             record("record recsound", "", 0, 0);
         }
 
@@ -34,7 +33,7 @@ namespace Recorder
             if (!string.IsNullOrWhiteSpace(FileName.Text))
             {
                 //record("save recsound c:\\mic.wav", "", 0, 0);
-                record("save recsound c:\\mic.wav", "", 0, 0);
+                record("save recsound " + FileName.Text, "", 0, 0);
                 record("close recsound", "", 0, 0);
             }
             else
@@ -47,7 +46,12 @@ namespace Recorder
 
         public void Button3_Click(System.Object sender, System.EventArgs e)
         {
-            (new Microsoft.VisualBasic.Devices.Audio()).Play("c:\\mic.wav");
+            if (!string.IsNullOrWhiteSpace(FileName.Text))
+            {
+                (new Microsoft.VisualBasic.Devices.Audio()).Play(FileName.Text);
+            }
+
+            // (new Microsoft.VisualBasic.Devices.Audio()).Play("c:\\mic.wav");
         }
 
         private void browse_Click(object sender, EventArgs e)
