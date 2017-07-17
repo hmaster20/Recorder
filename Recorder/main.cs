@@ -9,11 +9,14 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WindowsApplication2;
 
 namespace Recorder
 {
     public partial class main : Form
     {
+        Stopwatch sWatch = new Stopwatch();
+
         public main()
         {
             InitializeComponent();
@@ -30,20 +33,51 @@ namespace Recorder
         {
             TimeSpan ts = sWatch.Elapsed;
             info.Text = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-
         }
-
-        Stopwatch sWatch = new Stopwatch();
+        
 
         [DllImport("winmm.dll", EntryPoint = "mciSendStringA", ExactSpelling = true, CharSet = CharSet.Ansi, SetLastError = true)]
         private static extern int record(string lpstrCommand, string lpstrReturnString, int uReturnLength, int hwndCallback);
 
+        [DllImport("winmm.DLL", EntryPoint = "PlaySound", SetLastError = true, CharSet = CharSet.Unicode, ThrowOnUnmappableChar = true)]
+        private static extern bool PlaySound(string szSound, IntPtr hMod, PlaySoundFlags flags);
 
-        public void Button1_Click(System.Object sender, System.EventArgs e)
+        [Flags]
+        public enum PlaySoundFlags : int
+        {
+            SND_SYNC = 0x0000,
+            SND_ASYNC = 0x0001,
+            SND_NODEFAULT = 0x0002,
+            SND_LOOP = 0x0008,
+            SND_NOSTOP = 0x0010,
+            SND_NOWAIT = 0x00002000,
+            SND_FILENAME = 0x00020000,
+            SND_RESOURCE = 0x00040004
+        }
+
+        private void browse_Click(object sender, EventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = @"wav files|*.wav",
+                Title = @"Сохранить файл как",
+                DefaultExt = "wav",
+                OverwritePrompt = false
+            };
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                FileName.Text = saveFileDialog.FileName;
+            }
+        }
+
+
+        public void btnRec_Click(System.Object sender, System.EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(FileName.Text))
             {
                 record("open new Type waveaudio Alias recsound", "", 0, 0);
+                record("set capture time format ms bitspersample 16 channels 2 samplespersec 44000 bytespersec 128000 alignment 4", "", 0, 0);
                 record("record recsound", "", 0, 0);
 
                 btnPlay.Enabled = false;
@@ -61,7 +95,7 @@ namespace Recorder
             }
         }
 
-        public void Button2_Click(System.Object sender, System.EventArgs e)
+        public void BbtnStop_Click(System.Object sender, System.EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(FileName.Text))
             {
@@ -92,22 +126,41 @@ namespace Recorder
             }
         }
 
-        private void browse_Click(object sender, EventArgs e)
+        private void button1_Click_1(object sender, EventArgs e)
         {
-            var saveFileDialog = new SaveFileDialog
+            clsRecDevices recDev = new clsRecDevices();
+            for (int i = 0; i < recDev.Count; i++)
             {
-                Filter = @"wav files|*.wav",
-                Title = @"Сохранить файл как",
-                DefaultExt = "wav",
-                OverwritePrompt = false
-            };
-
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                FileName.Text = saveFileDialog.FileName;
+                MessageBox.Show(recDev[i]);
             }
         }
 
+        private void btnPlay2_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(FileName.Text))
+            {
+                PlaySound(FileName.Text, new System.IntPtr(), PlaySoundFlags.SND_SYNC);
+            }
+
+
+            //OpenFileDialog dialog1 = new OpenFileDialog();
+
+            //dialog1.Title = "Browse to find sound file to play";
+            //dialog1.InitialDirectory = @"c:\";
+            //dialog1.Filter = "Wav Files (*.wav)|*.wav";
+            //dialog1.FilterIndex = 2;
+            //dialog1.RestoreDirectory = true;
+
+            //if (dialog1.ShowDialog() == DialogResult.OK)
+            //{
+            //    textBox1.Text = dialog1.FileName;
+            //    PlaySound(dialog1.FileName, new System.IntPtr(), PlaySoundFlags.SND_SYNC);
+            //}
+        }
+
+
+
+         
 
         //#region Default Instance
         //private static Form1 defaultInstance;

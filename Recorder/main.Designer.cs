@@ -36,6 +36,8 @@
             this.btnStop = new System.Windows.Forms.Button();
             this.btnRec = new System.Windows.Forms.Button();
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnPlay2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // FileName
@@ -84,7 +86,7 @@
             this.btnStop.TabIndex = 3;
             this.btnStop.Text = "Stop";
             this.btnStop.UseVisualStyleBackColor = true;
-            this.btnStop.Click += new System.EventHandler(this.Button2_Click);
+            this.btnStop.Click += new System.EventHandler(this.BbtnStop_Click);
             // 
             // btnRec
             // 
@@ -96,13 +98,37 @@
             this.btnRec.TabIndex = 3;
             this.btnRec.Text = "Rec";
             this.btnRec.UseVisualStyleBackColor = true;
-            this.btnRec.Click += new System.EventHandler(this.Button1_Click);
+            this.btnRec.Click += new System.EventHandler(this.btnRec_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(52, 112);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(156, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Записывающие устройства";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // btnPlay2
+            // 
+            this.btnPlay2.Image = global::Recorder.Properties.Resources.play;
+            this.btnPlay2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnPlay2.Location = new System.Drawing.Point(214, 112);
+            this.btnPlay2.Name = "btnPlay2";
+            this.btnPlay2.Size = new System.Drawing.Size(75, 23);
+            this.btnPlay2.TabIndex = 3;
+            this.btnPlay2.Text = "Play 2";
+            this.btnPlay2.UseVisualStyleBackColor = true;
+            this.btnPlay2.Click += new System.EventHandler(this.btnPlay2_Click);
             // 
             // main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(388, 139);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnPlay2);
             this.Controls.Add(this.btnPlay);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnRec);
@@ -125,6 +151,8 @@
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Button btnPlay;
         private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnPlay2;
     }
 }
 
