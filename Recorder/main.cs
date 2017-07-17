@@ -16,6 +16,10 @@ namespace Recorder
         public main()
         {
             InitializeComponent();
+
+            btnPlay.Enabled = true;
+            btnRec.Enabled = true;
+            btnStop.Enabled = false;
         }
 
         [DllImport("winmm.dll", EntryPoint = "mciSendStringA", ExactSpelling = true, CharSet = CharSet.Ansi, SetLastError = true)]
@@ -24,8 +28,21 @@ namespace Recorder
 
         public void Button1_Click(System.Object sender, System.EventArgs e)
         {
-            record("open new Type waveaudio Alias recsound", "", 0, 0);
-            record("record recsound", "", 0, 0);
+            if (!string.IsNullOrWhiteSpace(FileName.Text))
+            {
+                record("open new Type waveaudio Alias recsound", "", 0, 0);
+                record("record recsound", "", 0, 0);
+
+                btnPlay.Enabled = false;
+                btnRec.Enabled = false;
+                btnStop.Enabled = true;
+
+                FileName.Enabled = false;
+            }
+            else
+            {
+                return;
+            }
         }
 
         public void Button2_Click(System.Object sender, System.EventArgs e)
@@ -41,7 +58,11 @@ namespace Recorder
                 return;
             }
 
+            FileName.Enabled = true;
 
+            btnPlay.Enabled = true;
+            btnRec.Enabled = true;
+            btnStop.Enabled = false;
         }
 
         public void Button3_Click(System.Object sender, System.EventArgs e)
