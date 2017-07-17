@@ -52,7 +52,7 @@ namespace Recorder
 
                 FileName.Enabled = false;
 
-                sWatch.Start();
+                sWatch.Restart();
                 timer.Start();
             }
             else
@@ -69,8 +69,7 @@ namespace Recorder
                 record("save recsound " + FileName.Text, "", 0, 0);
                 record("close recsound", "", 0, 0);
 
-                sWatch.Start();
-                sWatch.Reset();
+                sWatch.Stop();
                 timer.Stop();
             }
             else
@@ -91,8 +90,6 @@ namespace Recorder
             {
                 (new Microsoft.VisualBasic.Devices.Audio()).Play(FileName.Text);
             }
-
-            // (new Microsoft.VisualBasic.Devices.Audio()).Play("c:\\mic.wav");
         }
 
         private void browse_Click(object sender, EventArgs e)
@@ -103,12 +100,6 @@ namespace Recorder
                 Title = @"Сохранить файл как",
                 DefaultExt = "wav",
                 OverwritePrompt = false
-
-
-                //Filter = @"mp3 files|*.mp3",
-                //Title = @"Save File As",
-                //DefaultExt = "mp3",
-                //OverwritePrompt = false
             };
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -119,9 +110,7 @@ namespace Recorder
 
 
         //#region Default Instance
-
         //private static Form1 defaultInstance;
-
         //public static Form1 Default
         //{
         //    get
@@ -139,7 +128,6 @@ namespace Recorder
         //{
         //    defaultInstance = null;
         //}
-
         //#endregion
     }
 }
