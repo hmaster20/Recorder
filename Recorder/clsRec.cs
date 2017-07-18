@@ -1,21 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
 using System.Collections;
+using System.Runtime.InteropServices;
 
 namespace WindowsApplication2
 {
-    class clsRecDevices
-    {      
+    internal class clsRecDevices
+    {
         [StructLayout(LayoutKind.Sequential, Pack = 4)]
         public struct WaveInCaps
         {
             public short wMid;
             public short wPid;
             public int vDriverVersion;
+
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
             public char[] szPname;
+
             public uint dwFormats;
             public short wChannels;
             public short wReserved1;
@@ -29,21 +28,21 @@ namespace WindowsApplication2
         [DllImport("winmm.dll", EntryPoint = "waveInGetDevCaps")]
         public static extern int waveInGetDevCapsA(int uDeviceID, ref WaveInCaps lpCaps, int uSize);
 
-        //using to store all sound recording devices strings 
-        ArrayList arrLst = new ArrayList();
+        //using to store all sound recording devices strings
+        private ArrayList arrLst = new ArrayList();
 
-        int position = -1;
+        private int position = -1;
 
         //to return total sound recording devices found
         public int Count
-        {            
-            get {return arrLst.Count;}
+        {
+            get { return arrLst.Count; }
         }
 
         //return spesipic sound recording device name
         public string this[int indexer]
         {
-            get{return (string)arrLst[indexer];}
+            get { return (string)arrLst[indexer]; }
         }
 
         //fill sound recording devices array
@@ -55,12 +54,12 @@ namespace WindowsApplication2
                 for (int uDeviceID = 0; uDeviceID < waveInDevicesCount; uDeviceID++)
                 {
                     WaveInCaps waveInCaps = new WaveInCaps();
-                    waveInGetDevCapsA(uDeviceID,ref waveInCaps,Marshal.SizeOf(typeof(WaveInCaps)));
+                    waveInGetDevCapsA(uDeviceID, ref waveInCaps, Marshal.SizeOf(typeof(WaveInCaps)));
                     arrLst.Add(new string(waveInCaps.szPname).Remove(new string(waveInCaps.szPname).IndexOf('\0')).Trim());
-                    //clean garbage                  
+                    //clean garbage
                 }
             }
-        }        
+        }
     }
 }
 

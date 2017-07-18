@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WindowsApplication2;
 
@@ -15,7 +8,7 @@ namespace Recorder
 {
     public partial class main : Form
     {
-        Stopwatch sWatch = new Stopwatch();
+        private Stopwatch sWatch = new Stopwatch();
 
         public main()
         {
@@ -34,7 +27,6 @@ namespace Recorder
             TimeSpan ts = sWatch.Elapsed;
             info.Text = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
         }
-        
 
         [DllImport("winmm.dll", EntryPoint = "mciSendStringA", ExactSpelling = true, CharSet = CharSet.Ansi, SetLastError = true)]
         private static extern int record(string lpstrCommand, string lpstrReturnString, int uReturnLength, int hwndCallback);
@@ -70,7 +62,6 @@ namespace Recorder
                 FileName.Text = saveFileDialog.FileName;
             }
         }
-
 
         public void btnRec_Click(System.Object sender, System.EventArgs e)
         {
@@ -142,7 +133,6 @@ namespace Recorder
                 PlaySound(FileName.Text, new System.IntPtr(), PlaySoundFlags.SND_SYNC);
             }
 
-
             //OpenFileDialog dialog1 = new OpenFileDialog();
 
             //dialog1.Title = "Browse to find sound file to play";
@@ -157,10 +147,6 @@ namespace Recorder
             //    PlaySound(dialog1.FileName, new System.IntPtr(), PlaySoundFlags.SND_SYNC);
             //}
         }
-
-
-
-         
 
         //#region Default Instance
         //private static Form1 defaultInstance;
