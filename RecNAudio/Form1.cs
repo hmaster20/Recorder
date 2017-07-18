@@ -23,18 +23,27 @@ namespace RecNAudio
 
         private void StartBtn_Click(object sender, EventArgs e)
         {
-            StartBtn.Enabled = false;
-            StopBtn.Enabled = true;
+            if (!string.IsNullOrWhiteSpace(FileName.Text))
+            {
+                StartBtn.Enabled = false;
+                StopBtn.Enabled = true;
 
-            waveSource = new WaveIn();
-            waveSource.WaveFormat = new WaveFormat(44100, 1);
+                waveSource = new WaveIn();
 
-            waveSource.DataAvailable += new EventHandler<WaveInEventArgs>(waveSource_DataAvailable);
-            waveSource.RecordingStopped += new EventHandler<StoppedEventArgs>(waveSource_RecordingStopped);
+                int sampleRate = 8000; // 8 kHz
+                int channels = 1; // mono
 
-            waveFile = new WaveFileWriter(@"C:\Temp\Test0001.wav", waveSource.WaveFormat);
+                //waveSource.WaveFormat = new WaveFormat(44100, 1);
+                waveSource.WaveFormat = new WaveFormat(sampleRate, channels);
 
-            waveSource.StartRecording();
+                waveSource.DataAvailable += new EventHandler<WaveInEventArgs>(waveSource_DataAvailable);
+                waveSource.RecordingStopped += new EventHandler<StoppedEventArgs>(waveSource_RecordingStopped);
+
+                //waveFile = new WaveFileWriter(@"C:\Temp\Test0001.wav", waveSource.WaveFormat);
+                waveFile = new WaveFileWriter(FileName.Text, waveSource.WaveFormat);
+
+                waveSource.StartRecording();
+            }
         }
 
         private void StopBtn_Click(object sender, EventArgs e)
@@ -68,6 +77,22 @@ namespace RecNAudio
             }
 
             StartBtn.Enabled = true;
+        }
+
+        private void browse_Click(object sender, EventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = @"wav files|*.wav",
+                Title = @"Сохранить файл как",
+                DefaultExt = "wav",
+                OverwritePrompt = false
+            };
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                FileName.Text = saveFileDialog.FileName;
+            }
         }
     }
 }

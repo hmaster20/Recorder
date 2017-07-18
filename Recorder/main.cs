@@ -68,7 +68,9 @@ namespace Recorder
             if (!string.IsNullOrWhiteSpace(FileName.Text))
             {
                 record("open new Type waveaudio Alias recsound", "", 0, 0);
-                record("set capture time format ms bitspersample 16 channels 2 samplespersec 44000 bytespersec 128000 alignment 4", "", 0, 0);
+                //record("set capture time format ms bitspersample 16 channels 2 samplespersec 44000 bytespersec 128000 alignment 4", "", 0, 0);
+                //record("set recsound bitspersample 16", "", 0, 0);
+                //record("set recsound samplespersec 44100", "", 0, 0);
                 record("record recsound", "", 0, 0);
 
                 btnPlay.Enabled = false;

@@ -30,36 +30,60 @@
         {
             this.StartBtn = new System.Windows.Forms.Button();
             this.StopBtn = new System.Windows.Forms.Button();
+            this.browse = new System.Windows.Forms.Button();
+            this.FileName = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // StartBtn
             // 
-            this.StartBtn.Location = new System.Drawing.Point(43, 63);
+            this.StartBtn.Location = new System.Drawing.Point(98, 59);
             this.StartBtn.Name = "StartBtn";
             this.StartBtn.Size = new System.Drawing.Size(75, 23);
             this.StartBtn.TabIndex = 0;
-            this.StartBtn.Text = "StartBtn";
+            this.StartBtn.Text = "Record";
             this.StartBtn.UseVisualStyleBackColor = true;
+            this.StartBtn.Click += new System.EventHandler(this.StartBtn_Click);
             // 
             // StopBtn
             // 
-            this.StopBtn.Location = new System.Drawing.Point(43, 92);
+            this.StopBtn.Location = new System.Drawing.Point(179, 59);
             this.StopBtn.Name = "StopBtn";
             this.StopBtn.Size = new System.Drawing.Size(75, 23);
             this.StopBtn.TabIndex = 0;
-            this.StopBtn.Text = "StopBtn";
+            this.StopBtn.Text = "Stop";
             this.StopBtn.UseVisualStyleBackColor = true;
+            this.StopBtn.Click += new System.EventHandler(this.StopBtn_Click);
+            // 
+            // browse
+            // 
+            this.browse.Location = new System.Drawing.Point(299, 99);
+            this.browse.Name = "browse";
+            this.browse.Size = new System.Drawing.Size(27, 23);
+            this.browse.TabIndex = 3;
+            this.browse.Text = "...";
+            this.browse.UseVisualStyleBackColor = true;
+            this.browse.Click += new System.EventHandler(this.browse_Click);
+            // 
+            // FileName
+            // 
+            this.FileName.Location = new System.Drawing.Point(56, 100);
+            this.FileName.Name = "FileName";
+            this.FileName.Size = new System.Drawing.Size(237, 20);
+            this.FileName.TabIndex = 2;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(407, 183);
+            this.Controls.Add(this.browse);
+            this.Controls.Add(this.FileName);
             this.Controls.Add(this.StopBtn);
             this.Controls.Add(this.StartBtn);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -67,6 +91,8 @@
 
         private System.Windows.Forms.Button StartBtn;
         private System.Windows.Forms.Button StopBtn;
+        private System.Windows.Forms.Button browse;
+        private System.Windows.Forms.TextBox FileName;
     }
 }
 
