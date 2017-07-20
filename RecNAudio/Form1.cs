@@ -1,10 +1,13 @@
-﻿using NAudio.Wave;
+﻿using NAudio.Lame;
+using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -94,5 +97,45 @@ namespace RecNAudio
                 FileName.Text = saveFileDialog.FileName;
             }
         }
+
+
+
+
+        private static void FromStreamToWav()
+        {
+            string url = "";
+            MemoryStream mp3Buffered = new MemoryStream();
+            using (var responseStream = WebRequest.Create(url).GetResponse().GetResponseStream())
+            {
+                byte[] buffer = new byte[65536];
+                int bytesRead = responseStream.Read(buffer, 0, buffer.Length);
+                while (bytesRead > 0)
+                {
+                    mp3Buffered.Write(buffer, 0, bytesRead);
+                    bytesRead = responseStream.Read(buffer, 0, buffer.Length);
+                }
+            }
+
+            mp3Buffered.Position = 0;
+            using (var mp3Stream = new Mp3FileReader(mp3Buffered))
+            {
+                WaveFileWriter.CreateWaveFile("file.wav", mp3Stream);
+            }
+        }
+
+        public static byte[] ConvertWavToMp3(byte[] wavFile)
+        {
+
+            using (var retMs = new MemoryStream())
+            using (var ms = new MemoryStream(wavFile))
+            using (var rdr = new WaveFileReader(ms))
+            using (var wtr = new LameMP3FileWriter(retMs, rdr.WaveFormat, 128))
+            {
+                rdr.CopyTo(wtr);
+                return retMs.ToArray();
+            }
+        }
+
+
     }
 }
